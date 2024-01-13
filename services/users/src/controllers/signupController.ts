@@ -14,15 +14,13 @@ type SignupRequestData = {
 };
 
 type SignupResponseData = {
-  user?: {
-    token: string;
-  };
+  token: string;
   error?: string;
 };
 
 const SignupDataObject = z.object({
-  login: string().regex(/[a-z0-9!@-_]{4,}/i),
-  password: string().regex(/[a-z0-9!@#$%^&*()-_=+]{6,}/i),
+  login: string().regex(/^[a-z0-9!@-_]{4,}$/i),
+  password: string().regex(/^[a-z0-9!@#$%^&*()-_=+]{6,}$/i),
   email: string().email().optional(),
   firstName: string(),
   lastName: string()
@@ -60,9 +58,7 @@ const signupController = async (
     );
 
     res({
-      user: {
-        token
-      }
+      token
     });
   } catch (error) {
     res({

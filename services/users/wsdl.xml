@@ -1,73 +1,96 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<definitions name="users sign-in/up service" targetNamespace="test.wsdl" xmlns:tns="test.wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsd1="test.xsd" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/">
-<!-- definition of datatypes -->
-	<types>
-	<schema targetNamespace="test.xsd" xmlns="http://www.w3.org/2000/10/XMLSchema">
-		<element name="login">
-		<complexType><all><element name="value" type="string"/></all></complexType>
-		</element>
-		<element name="password">
-		<complexType><all><element name="value" type="string"/></all></complexType>
-		</element>
-		<element name="email">
-		<complexType><all><element name="value" type="string"/></all></complexType>
-		</element>
-		<element name="firstName">
-		<complexType><all><element name="value" type="string"/></all></complexType>
-		</element>
-		<element name="lastName">
-		<complexType><all><element name="value" type="string"/></all></complexType>
-		</element>
-		<element name="token">
-		<complexType><all><element name="value" type="string"/></all></complexType>
-		</element>
-	</schema>
-	</types>
-<!-- response messages -->
-	<message name="returns_token">
-	<part name="token" type="xsd:token"/>
-	</message>
-<!-- request messages -->
-	<message name="Signup">
-	<part name="login" type="xsd:login"/>
-	<part name="password" type="xsd:password"/>
-	<part name="email" type="xsd:email"/>
-	<part name="firstName" type="xsd:firstName"/>
-	<part name="lastName" type="xsd:lastName"/>
-	</message>
-	<message name="Signin">
-	<part name="login" type="xsd:login"/>
-	<part name="password" type="xsd:password"/>
-	</message>
-<!-- server's services -->
-	<portType name="users">
-		<operation name="Signup">
-		<input message="tns:Signup"/>
-		<output message="tns:returns_token"/>
-		</operation>
-		<operation name="Signin">
-		<input message="tns:Signin"/>
-		<output message="tns:returns_token"/>
-		</operation>
-	</portType>
-<!-- server encoding -->
-	<binding name="users_webservices" type="tns:users">
-	<soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
-		<operation name="Signup">
-		<soap:operation soapAction="urn:xmethods-delayed-quotes#Signup"/>
-		<input><soap:body use="encoded" namespace="urn:xmethods-delayed-quotes" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input>
-		<output><soap:body use="encoded" namespace="urn:xmethods-delayed-quotes" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output>
-		</operation>
-		<operation name="Signin">
-		<soap:operation soapAction="urn:xmethods-delayed-quotes#Signin"/>
-		<input><soap:body use="encoded" namespace="urn:xmethods-delayed-quotes" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input>
-		<output><soap:body use="encoded" namespace="urn:xmethods-delayed-quotes" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output>
-		</operation>
-	</binding>
-<!-- access to service provider -->
-	<service name="service">
-	<port name="service_0" binding="users_webservices">
-	<soap:address location="http://127.0.0.1:5000/"/>
-	</port>
-	</service>
-</definitions>
+<wsdl:definitions 
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+    xmlns:tns="http://Example.org" 
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+    xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" 
+    xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" 
+    targetNamespace="http://Example.org" 
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+    <wsdl:types>
+        <xsd:schema targetNamespace="http://Example.org" elementFormDefault="qualified" >
+            <xsd:element name="Signup">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="login" type="xsd:string" />
+                        <xsd:element name="password" type="xsd:string" />
+                        <xsd:element name="firstName" type="xsd:string" />
+                        <xsd:element name="lastName" type="xsd:string" />
+                        <xsd:element name="email" type="xsd:string" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="SignupResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="token" type="xsd:string" />
+                        <xsd:element name="error" type="xsd:string" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="Signin">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="login" type="xsd:string" />
+                        <xsd:element name="password" type="xsd:string" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="SigninResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="token" type="xsd:string" />
+                        <xsd:element name="error" type="xsd:string" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="Users_Signup_InputMessage">
+        <wsdl:part name="parameters" element="tns:Signup" />
+    </wsdl:message>
+    <wsdl:message name="Users_Signup_OutputMessage">
+        <wsdl:part name="parameters" element="tns:SignupResponse" />
+    </wsdl:message>
+    <wsdl:message name="Users_Signin_InputMessage">
+        <wsdl:part name="parameters" element="tns:Signin" />
+    </wsdl:message>
+    <wsdl:message name="Users_Signin_OutputMessage">
+        <wsdl:part name="parameters" element="tns:SigninResponse" />
+    </wsdl:message>
+    <wsdl:portType name="Users">
+        <wsdl:operation name="Signup">
+            <wsdl:input wsaw:Action="http://Example.org/Users/Signup" message="tns:Users_Signup_InputMessage" />
+            <wsdl:output wsaw:Action="http://Example.org/Users/SignupResponse" message="tns:Users_Signup_OutputMessage" />
+        </wsdl:operation>
+        <wsdl:operation name="Signin">
+            <wsdl:input wsaw:Action="http://Example.org/Users/Signup" message="tns:Users_Signin_InputMessage" />
+            <wsdl:output wsaw:Action="http://Example.org/Users/SignupResponse" message="tns:Users_Signin_OutputMessage" />
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="DefaultBinding_Users" type="tns:Users">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+        <wsdl:operation name="Signup">
+            <soap:operation soapAction="http://Example.org/users/signup" style="document" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="Signin">
+            <soap:operation soapAction="http://Example.org/users/signin" style="document" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="UsersService">
+        <wsdl:port name="Users" binding="tns:DefaultBinding_Users">
+            <soap:address location="http://Example.org/users" />
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>
