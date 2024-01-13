@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="users sign-in/up service" targetNamespace="test.wsdl" xmlns:tns="test.wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsd1="test.xsd" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+<!-- definition of datatypes -->
+	<types>
+	<schema targetNamespace="test.xsd" xmlns="http://www.w3.org/2000/10/XMLSchema">
+		<element name="login">
+		<complexType><all><element name="value" type="string"/></all></complexType>
+		</element>
+		<element name="password">
+		<complexType><all><element name="value" type="string"/></all></complexType>
+		</element>
+		<element name="email">
+		<complexType><all><element name="value" type="string"/></all></complexType>
+		</element>
+		<element name="firstName">
+		<complexType><all><element name="value" type="string"/></all></complexType>
+		</element>
+		<element name="lastName">
+		<complexType><all><element name="value" type="string"/></all></complexType>
+		</element>
+		<element name="token">
+		<complexType><all><element name="value" type="string"/></all></complexType>
+		</element>
+	</schema>
+	</types>
+<!-- response messages -->
+	<message name="returns_token">
+	<part name="token" type="xsd:token"/>
+	</message>
+<!-- request messages -->
+	<message name="Signup">
+	<part name="login" type="xsd:login"/>
+	<part name="password" type="xsd:password"/>
+	<part name="email" type="xsd:email"/>
+	<part name="firstName" type="xsd:firstName"/>
+	<part name="lastName" type="xsd:lastName"/>
+	</message>
+	<message name="Signin">
+	<part name="login" type="xsd:login"/>
+	<part name="password" type="xsd:password"/>
+	</message>
+<!-- server's services -->
+	<portType name="users">
+		<operation name="Signup">
+		<input message="tns:Signup"/>
+		<output message="tns:returns_token"/>
+		</operation>
+		<operation name="Signin">
+		<input message="tns:Signin"/>
+		<output message="tns:returns_token"/>
+		</operation>
+	</portType>
+<!-- server encoding -->
+	<binding name="users_webservices" type="tns:users">
+	<soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<operation name="Signup">
+		<soap:operation soapAction="urn:xmethods-delayed-quotes#Signup"/>
+		<input><soap:body use="encoded" namespace="urn:xmethods-delayed-quotes" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input>
+		<output><soap:body use="encoded" namespace="urn:xmethods-delayed-quotes" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output>
+		</operation>
+		<operation name="Signin">
+		<soap:operation soapAction="urn:xmethods-delayed-quotes#Signin"/>
+		<input><soap:body use="encoded" namespace="urn:xmethods-delayed-quotes" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input>
+		<output><soap:body use="encoded" namespace="urn:xmethods-delayed-quotes" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output>
+		</operation>
+	</binding>
+<!-- access to service provider -->
+	<service name="service">
+	<port name="service_0" binding="users_webservices">
+	<soap:address location="http://127.0.0.1:5000/"/>
+	</port>
+	</service>
+</definitions>

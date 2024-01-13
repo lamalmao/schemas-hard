@@ -1,0 +1,78 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement()) @map("user_id")
+  login     String   @unique
+  email     String?
+  firstName String   @map("first_name")
+  lastName  String   @map("last_name")
+  password  String   @map("password_hash")
+  salt      String   @map("password_salt")
+  joinDate  DateTime @default(now()) @map("join_date")
+
+  @@map("users")
+}
+
+model Passanger {
+  id        Int      @id @default(autoincrement()) @map("passanger_id")
+  firstName String   @map("first_name")
+  lastName  String   @map("last_name")
+  passport  String
+  tickets   Ticket[]
+
+  @@map("passangers")
+}
+
+model Ticket {
+  id          Int       @id @default(autoincrement()) @map("ticket_id")
+  created     DateTime  @default(now()) @map("creation_date")
+  passangerId Int       @map("passanger_id")
+  passanger   Passanger @relation(fields: [passangerId], references: [id])
+  tripId      Int       @map("trip_id")
+  trip        Trip      @relation(fields: [tripId], references: [id])
+
+  @@map("tickets")
+}
+
+model Pier {
+  id      Int    @id @default(autoincrement()) @map("pier_id")
+  name    String
+  address String
+  boats   Boat[]
+
+  @@map("piers")
+}
+
+model Boat {
+  id       Int    @id @default(autoincrement()) @map("boat_id")
+  name     String
+  capacity Int
+  pierId   Int    @map("pier_id")
+  pier     Pier   @relation(fields: [pierId], references: [id])
+  trips    Trip[]
+
+  @@map("boats")
+}
+
+model Trip {
+  id           Int      @id @default(autoincrement()) @map("trip_id")
+  name         String
+  description  String?
+  creationDate DateTime @default(now()) @map("creation_date")
+  startDate    DateTime
+  boatId       Int      @map("boat_id")
+  boat         Boat     @relation(fields: [boatId], references: [id])
+  tickets      Ticket[]
+
+  @@map("trips")
+}
