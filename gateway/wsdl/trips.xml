@@ -1,0 +1,136 @@
+<wsdl:definitions
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="http://localhost:5001"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl"
+	xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" 
+  targetNamespace="http://localhost:5001"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+	<wsdl:types>
+		<xsd:schema targetNamespace="http://localhost:5001" elementFormDefault="qualified" >
+			<xsd:element name="CreateTrip">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="token" type="xsd:string" />
+						<xsd:element name="name" type="xsd:string" />
+						<xsd:element name="description" type="xsd:string" />
+						<xsd:element name="boat" type="xsd:int" />
+						<xsd:element name="startDate" type="xsd:long" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="CreateTripResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="id" type="xsd:int" />
+						<xsd:element name="error" type="xsd:string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="GetTrip">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="token" type="xsd:string" />
+						<xsd:element name="id" type="xsd:int" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="GetTripResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="token" type="xsd:string" />
+						<xsd:element name="name" type="xsd:string" />
+						<xsd:element name="description" type="xsd:string" />
+						<xsd:element name="boat" type="xsd:int" />
+						<xsd:element name="startDate" type="xsd:long" />
+						<xsd:element name="creationDate" type="xsd:long" />
+						<xsd:element name="error" type="xsd:string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="DeleteTrip">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="token" type="xsd:string" />
+						<xsd:element name="id" type="xsd:int" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="DeleteTripResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="id" type="xsd:int" />
+						<xsd:element name="error" type="xsd:string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:schema>
+	</wsdl:types>
+	<wsdl:message name="Trips_CreateTrip_InputMessage">
+		<wsdl:part name="parameters" element="tns:CreateTrip" />
+	</wsdl:message>
+	<wsdl:message name="Trips_CreateTrip_OutputMessage">
+		<wsdl:part name="parameters" element="tns:CreateTripResponse" />
+	</wsdl:message>
+	<wsdl:message name="Trips_GetTrip_InputMessage">
+		<wsdl:part name="parameters" element="tns:GetTrip" />
+	</wsdl:message>
+	<wsdl:message name="Trips_GetTrip_OutputMessage">
+		<wsdl:part name="parameters" element="tns:GetTripResponse" />
+	</wsdl:message>
+	<wsdl:message name="Trips_DeleteTrip_InputMessage">
+		<wsdl:part name="parameters" element="tns:DeleteTrip" />
+	</wsdl:message>
+	<wsdl:message name="Trips_DeleteTrip_OutputMessage">
+		<wsdl:part name="parameters" element="tns:DeleteTripResponse" />
+	</wsdl:message>
+	<wsdl:portType name="Trips">
+		<wsdl:operation name="CreateTrip">
+			<wsdl:input wsaw:Action="http://localhost:5001/Trips/CreateTrip" message="tns:Trips_CreateTrip_InputMessage" />
+			<wsdl:output wsaw:Action="http://localhost:5001/Trips/CreateTripResponse" message="tns:Trips_CreateTrip_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="GetTrip">
+			<wsdl:input wsaw:Action="http://localhost:5001/Trips/GetTrip" message="tns:Trips_GetTrip_InputMessage" />
+			<wsdl:output wsaw:Action="http://localhost:5001/Trips/GetTripResponse" message="tns:Trips_GetTrip_OutputMessage" />
+		</wsdl:operation>
+		<wsdl:operation name="DeleteTrip">
+			<wsdl:input wsaw:Action="http://localhost:5001/Trips/DeleteTrip" message="tns:Trips_DeleteTrip_InputMessage" />
+			<wsdl:output wsaw:Action="http://localhost:5001/Trips/DeleteTripResponse" message="tns:Trips_DeleteTrip_OutputMessage" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="DefaultBinding_Trips" type="tns:Trips">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="CreateTrip">
+			<soap:operation soapAction="http://localhost:5001/trips/create" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTrip">
+			<soap:operation soapAction="http://localhost:5001/trips/get" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DeleteTrip">
+			<soap:operation soapAction="http://localhost:5001/trips/delete" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="TripsService">
+		<wsdl:port name="Trips" binding="tns:DefaultBinding_Trips">
+			<soap:address location="http://localhost:5001/trips" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

@@ -4,7 +4,7 @@
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
 	xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl"
 	xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" 
-  targetNamespace="http://localhost:5000"
+    targetNamespace="http://localhost:5000"
 	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
 	<wsdl:types>
 		<xsd:schema targetNamespace="http://localhost:5000" elementFormDefault="qualified" >
